@@ -1,0 +1,2 @@
+..\PortableApps\mingw64\bin\g++.exe test_aobscan.cpp -static -march=skylake -O3 -o test_aobscan.exe -lpsapi
+..\PortableApps\mingw64\bin\gcc -shared -o d3d10.dll d3d10.cpp -static -O3 -mavx2 -lpsapi d3d10.def -Wl,--image-base=0x180000000

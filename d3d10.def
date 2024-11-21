@@ -1,0 +1,4 @@
+EXPORTS
+D3D10CompileEffectFromMemory=__E__0__ @1
+D3D10CompileShader=__E__1__ @2
+D3D10CreateBlob=__E__2__ @3
