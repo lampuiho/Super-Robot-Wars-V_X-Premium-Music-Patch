@@ -1,4 +1,4 @@
-# Version of the game
+# Version of the game:
 Tested on the SRWV 2.0.148 and 2.0.150
 and SRWX 2.0.127
 
@@ -18,3 +18,8 @@ Go in settings and the BGM menu to see if it works. You can also move away your 
 
 ![SRWV-PremiumMusic](https://github.com/user-attachments/assets/1d174829-e594-4724-9be3-001581f2a81e)
 ![SRWX-PremiumMusic](https://github.com/user-attachments/assets/ceda5793-14a2-46aa-ba25-72f743f662dc)
+
+# Credits:
+Team skse (https://skse.silverlock.org/) for their code for hooking functions after steamstub finishes loading
+
+Canzah from GBAtemp for the premium music files
