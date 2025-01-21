@@ -1,0 +1,1 @@
+..\..\PortableApps\mingw64\bin\gcc -D DEBUG -shared -o d3d10.dll d3d10.cpp -static -O3 -mavx2 -lpsapi -lstdc++ d3d10.def -Wl,--image-base=0x180000000
