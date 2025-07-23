@@ -20,6 +20,8 @@ FARPROC p[3] = {0};
 const BYTE CODE[] = { 0xB0,0x01,0x88,0x01,0xEB,0x18,0x0F,0x1F,0x00 };
 const BYTE AOB[] = { 0x48,0x83,0xEC,0x30,0x48,0x8B,0xF9,0x48,0x8D,0x0D,0,0,0,0,0xE8,0,0,0,0,0x3C,0x01 };
 const UINT32 BitMasks[] = { ~(UINT32)0b110000100001111111111 };
+const BYTE GENCPK[] = { 0x5F,0x47,0x45,0x4E,0x2E,0x43,0x50,0x4B,0x00 };
+const UINT32 CPKBitMasks[] = { ~(UINT32)0b111111111 };
 typedef char * (*__get_narrow_winmain_command_line)();
 __get_narrow_winmain_command_line _get_narrow_winmain_command_line_Original = NULL;
 
@@ -187,7 +189,19 @@ __declspec(noinline) bool hookMain(void *retAddr) {
 			memcpy((void*)(demoModeAddr+0xE),CODE,sizeof(CODE));
 			VirtualProtect(codePtr,sizeof(CODE)+4,backup,&flNewProtect);
 			DEBUG_MSG("Patched AOB area");
-			return true;
+			
+			UINT64 tabCpkAddr = aobScanProcess(GENCPK, sizeof(GENCPK), CPKBitMasks);//searching for demoMode translation data CPK
+			if (tabCpkAddr) {
+				DEBUG_MSG("Patching out JP demoMode CPK with original CPK at 0x" << hex << tabCpkAddr);
+				flNewProtect = PAGE_EXECUTE_WRITECOPY;
+				success = VirtualProtect((void*)tabCpkAddr,sizeof(GENCPK),flNewProtect,&backup);
+				if (success) {
+					memcpy((void*)tabCpkAddr,GENCPK+4,sizeof(GENCPK)-4);
+					VirtualProtect((void*)tabCpkAddr,sizeof(GENCPK),backup,&flNewProtect);
+					DEBUG_MSG("Patched CPK");
+					return true;
+				}
+			}
 		}
 	}
 	return false;
